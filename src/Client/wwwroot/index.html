@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        .background-img {
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: black;
+        }
+    </style>
+</head>
+<body class="background-img" style="background-image: url(presentation/01.jpg);">
+    <app></app>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script>
+        window.applyStyleForBody = function (style) {
+            console.log(style.attrib);
+            console.log(style.value);
+            document.body.style[style.attrib] = style.value;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+﻿@page "/"
+@inject IJSRuntime JSRuntime
+@implements IDisposable
+@using Toolbelt.Blazor.HotKeys
+@inject HotKeys HotKeys
+@inject IJSRuntime JSRuntime
+
+@code
+{
+    HotKeysContext HotKeysContext;
+    int Position = 1;
+
+    protected override void OnInitialized()
+    {
+        this.HotKeysContext = this.HotKeys.CreateContext()
+          .Add(ModKeys.Ctrl | ModKeys.Shift, Keys.A, Next)
+          .Add(ModKeys.Ctrl | ModKeys.Shift, Keys.S, Prev);
+    }
+
+    async Task Prev()
+    {
+        Position++;
+        await UpdateImage();
+    }
+
+    async Task Next()
+    {
+        Position--;
+        await UpdateImage();
+    }
+
+    async Task UpdateImage()
+    {
+        await JSRuntime.InvokeVoidAsync("applyStyleForBody",
+                new
+                {
+                    attrib = "background-image",
+                    value = $"url(/presentation/{Position:00}.jpg)"
+                });
+    }
+
+    public void Dispose()
+    {
+        this.HotKeysContext.Dispose();
+    }
+}
